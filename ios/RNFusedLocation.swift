@@ -104,7 +104,7 @@ class RNFusedLocation: RCTEventEmitter {
     locManager.delegate = self
     locManager.desiredAccuracy = getAccuracy(options)
     locManager.distanceFilter = distanceFilter
-    locManager.requestLocation()
+    locManager.startUpdatingLocation()
 
     self.successCallback = successCallback
     self.errorCallback = errorCallback
@@ -319,6 +319,7 @@ extension RNFusedLocation: CLLocationManagerDelegate {
     timeoutTimer?.invalidate()
     successCallback = nil
     errorCallback = nil
+    manager.stopUpdatingLocation()
     manager.delegate = nil
   }
 
@@ -358,6 +359,7 @@ extension RNFusedLocation: CLLocationManagerDelegate {
     // Cleanup
     timeoutTimer?.invalidate()
     successCallback = nil
+    manager.stopUpdatingLocation()
     errorCallback = nil
     manager.delegate = nil
   }
